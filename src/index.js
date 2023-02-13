@@ -27,14 +27,6 @@ app.response.sendWrapped = function (message, data, statusCode = httpStatus.OK) 
   });
 };
 
-app.get('/', (req, res) => {
-  const data = 'ramaa';
-
-  if (data !== 'rama') throw new BaseError('Data not rama', httpStatus.CONFLICT);
-
-  res.sendWrapped('Data is Rama', data, httpStatus.OK);
-});
-
 app.listen(NODE_PORT, () => {
   logger.info(`Server run on port ${NODE_PORT}`);
 });
