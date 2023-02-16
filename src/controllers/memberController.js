@@ -70,9 +70,25 @@ const updateMemberByIdController = catchAsync(async (req, res) => {
   res.sendWrapped(`Member with ID ${id} successfully updated`, member, httpStatus.OK);
 });
 
+/**
+ * Controller delet member by ID
+ */
+const deleteMemberByIdController = catchAsync(async (req, res) => {
+  const { id } = req.params;
+
+  const isValidMember = await memberService.getMemberByIdService(id);
+
+  if (!isValidMember) throw new BaseError(`Member with ID ${id} not found`, httpStatus.NOT_FOUND);
+
+  await memberService.deleteMemberByIdService(id);
+
+  res.sendWrapped(`Member with ID ${id} successfully deleted`, isValidMember, httpStatus.OK);
+});
+
 module.exports = {
   createMemberController,
   getAllMemberController,
   getMemberByIdController,
   updateMemberByIdController,
+  deleteMemberByIdController,
 };

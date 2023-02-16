@@ -43,9 +43,21 @@ const updateMemberByIdService = async (id, data) => {
   return member;
 };
 
+/**
+ * Service delete member by ID
+ * @param {Number} id
+ * @returns Object
+ */
+const deleteMemberByIdService = async (id) => {
+  const member = await Member.destroy({ where: { id } });
+
+  return member;
+};
+
 module.exports = {
   createMemberService,
   getAllMemberService,
   getMemberByIdService,
   updateMemberByIdService,
+  deleteMemberByIdService,
 };
