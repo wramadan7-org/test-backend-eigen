@@ -1,4 +1,4 @@
-const { body } = require('express-validator');
+const { body, param } = require('express-validator');
 
 const createMemberValidation = [
   body('name')
@@ -12,6 +12,13 @@ const createMemberValidation = [
     .default(false),
 ];
 
+const getMemberByIdValdation = [
+  param('id')
+    .isNumeric()
+    .withMessage('Parameter ID is only contain number'),
+];
+
 module.exports = {
   createMemberValidation,
+  getMemberByIdValdation,
 };
