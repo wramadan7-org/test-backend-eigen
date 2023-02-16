@@ -67,7 +67,7 @@ const updateMemberByIdController = catchAsync(async (req, res) => {
 
   const member = await memberService.updateMemberByIdService(id, dataValues);
 
-  res.sendWrapped(`Member with ID ${id} successfully updated`, member, httpStatus.OK);
+  res.sendWrapped(`Member with ID ${id} successfully updated`, dataValues, httpStatus.OK);
 });
 
 /**
