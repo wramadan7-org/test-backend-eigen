@@ -18,7 +18,19 @@ const createMemberService = async (data) => {
  */
 const getAllMemberService = () => Member.findAll();
 
+/**
+ * Service to get member by ID
+ * @param {Number} id
+ * @returns Object
+ */
+const getMemberByIdService = async (id) => {
+  const member = await Member.findByPk(id);
+
+  return member;
+};
+
 module.exports = {
   createMemberService,
   getAllMemberService,
+  getMemberByIdService,
 };

@@ -37,7 +37,21 @@ const getAllMemberController = catchAsync(async (req, res) => {
   return res.sendWrapped('List member', memberMap, httpStatus.OK);
 });
 
+/**
+ * Controller get member by ID
+ */
+const getMemberByIdController = catchAsync(async (req, res) => {
+  const { id } = req.params;
+
+  const member = await memberService.getMemberByIdService(id);
+
+  if (!member) throw new BaseError(`Member with ID ${id} not found`, httpStatus.NOT_FOUND);
+
+  res.sendWrapped(`Member with ID ${id}`, member, httpStatus.OK);
+});
+
 module.exports = {
   createMemberController,
   getAllMemberController,
+  getMemberByIdController,
 };
