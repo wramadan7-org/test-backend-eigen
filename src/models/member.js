@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    isPenalized: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   }, {
     sequelize,
     modelName: 'Member',
