@@ -6,6 +6,7 @@ const morgan = require('./configurations/morgan');
 const logger = require('./configurations/logger');
 const BaseError = require('./helpers/baseError');
 const { errorConverter, errorHandler } = require('./middlewares/errorHandler');
+const routesV1 = require('./routes/v1/index');
 
 const { NODE_PORT } = process.env;
 
@@ -17,6 +18,7 @@ app.use(cors());
 app.use('*', cors());
 app.use(morgan.successHandler);
 app.use(morgan.errorHandler);
+app.use('/v1', routesV1);
 
 // Wrap the response
 app.response.sendWrapped = function (message, data, statusCode = httpStatus.OK) {
