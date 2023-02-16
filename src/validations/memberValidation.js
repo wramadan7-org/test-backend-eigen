@@ -18,7 +18,21 @@ const getMemberByIdValdation = [
     .withMessage('Parameter ID is only contain number'),
 ];
 
+const updateMemberByIdValidation = [
+  param('id')
+    .isNumeric()
+    .withMessage('Parameter ID is only contain number'),
+  body('name')
+    .isString()
+    .notEmpty()
+    .optional(),
+  body('isPenalized')
+    .isBoolean()
+    .optional(),
+];
+
 module.exports = {
   createMemberValidation,
   getMemberByIdValdation,
+  updateMemberByIdValidation,
 };

@@ -50,8 +50,29 @@ const getMemberByIdController = catchAsync(async (req, res) => {
   res.sendWrapped(`Member with ID ${id}`, member, httpStatus.OK);
 });
 
+/**
+ * Controller update member by ID
+ */
+const updateMemberByIdController = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const requestBody = req.body;
+
+  const validMember = await memberService.getMemberByIdService(id);
+
+  if (!validMember) throw new BaseError(`Member with ID ${id} not found`, httpStatus.NOT_FOUND);
+
+  // Assign key value
+  const data = Object.assign(validMember, requestBody);
+  const { dataValues } = data;
+
+  const member = await memberService.updateMemberByIdService(id, dataValues);
+
+  res.sendWrapped(`Member with ID ${id} successfully updated`, member, httpStatus.OK);
+});
+
 module.exports = {
   createMemberController,
   getAllMemberController,
   getMemberByIdController,
+  updateMemberByIdController,
 };

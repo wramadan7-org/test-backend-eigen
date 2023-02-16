@@ -29,8 +29,23 @@ const getMemberByIdService = async (id) => {
   return member;
 };
 
+/**
+ * Service update member by ID
+ * @param {Number} id
+ * @param {Object} data
+ * @returns Object
+ */
+const updateMemberByIdService = async (id, data) => {
+  const member = await Member.update(data, {
+    where: { id },
+  });
+
+  return member;
+};
+
 module.exports = {
   createMemberService,
   getAllMemberService,
   getMemberByIdService,
+  updateMemberByIdService,
 };
