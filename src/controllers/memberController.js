@@ -2,6 +2,7 @@ const httpStatus = require('http-status');
 const catchAsync = require('../helpers/catchAsync');
 const BaseError = require('../helpers/baseError');
 const memberService = require('../services/memberService');
+const { memberArrayDto, memberObjectDto } = require('../dto/memberDTO');
 
 /**
  * Controller create member
@@ -13,7 +14,9 @@ const createMemberController = catchAsync(async (req, res) => {
 
   if (!member) throw new BaseError('Fail to create member', httpStatus.CONFLICT);
 
-  res.sendWrapped('Create member successfully', member, httpStatus.CREATED);
+  const response = memberObjectDto(member);
+
+  res.sendWrapped('Create member successfully', response, httpStatus.CREATED);
 });
 
 /**
@@ -25,16 +28,9 @@ const getAllMemberController = catchAsync(async (req, res) => {
   if (member && member.length <= 0) return res.sendWrapped('List member', [], httpStatus.OK);
 
   // Set result member
-  const memberMap = member.map((o) => {
-    const data = {
-      code: o.code || '',
-      name: o.name,
-    };
+  const response = memberArrayDto(member);
 
-    return data;
-  });
-
-  return res.sendWrapped('List member', memberMap, httpStatus.OK);
+  return res.sendWrapped('List member', response, httpStatus.OK);
 });
 
 /**
@@ -47,7 +43,9 @@ const getMemberByIdController = catchAsync(async (req, res) => {
 
   if (!member) throw new BaseError(`Member with ID ${id} not found`, httpStatus.NOT_FOUND);
 
-  res.sendWrapped(`Member with ID ${id}`, member, httpStatus.OK);
+  const response = memberObjectDto(member);
+
+  res.sendWrapped(`Member with ID ${id}`, response, httpStatus.OK);
 });
 
 /**
@@ -67,7 +65,11 @@ const updateMemberByIdController = catchAsync(async (req, res) => {
 
   const member = await memberService.updateMemberByIdService(id, dataValues);
 
-  res.sendWrapped(`Member with ID ${id} successfully updated`, dataValues, httpStatus.OK);
+  if (member && member[0] === 0) throw new BaseError('Fail to update member', httpStatus.CONFLICT);
+
+  const response = memberObjectDto(dataValues);
+
+  res.sendWrapped(`Member with ID ${id} successfully updated`, response, httpStatus.OK);
 });
 
 /**
@@ -82,7 +84,9 @@ const deleteMemberByIdController = catchAsync(async (req, res) => {
 
   await memberService.deleteMemberByIdService(id);
 
-  res.sendWrapped(`Member with ID ${id} successfully deleted`, isValidMember, httpStatus.OK);
+  const response = memberObjectDto(isValidMember);
+
+  res.sendWrapped(`Member with ID ${id} successfully deleted`, response, httpStatus.OK);
 });
 
 module.exports = {
